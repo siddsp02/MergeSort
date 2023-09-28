@@ -56,6 +56,9 @@ def pmergesort(arr: list[T]) -> list[T]:
     if n < 2:
         return arr[:]
     if n >= ARRAY_SIZE_CUTOFF:
+        # Here, a ProcessPoolExecutor is used instead of the regular
+        # multiprocessing module since regular processes aren't allowed
+        # to have children.
         with concurrent.futures.ProcessPoolExecutor() as executor:
             f1 = executor.submit(pmergesort, arr[:mid])
             f2 = executor.submit(pmergesort, arr[mid:])
